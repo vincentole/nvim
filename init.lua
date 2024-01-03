@@ -31,11 +31,18 @@ require('lazy').setup({
       })
     end,
   },
+  -- {
+  -- "olimorris/onedarkpro.nvim",
+  -- priority = 1000,
+  --   config = function()
+  --     vim.cmd.colorscheme 'onedark'
+  --   end,
+  -- },
   {
-    'luisiacc/gruvbox-baby',
+    'navarasu/onedark.nvim',
     config = function()
-      vim.g.gruvbox_baby_telescope_theme = 1
-      vim.cmd.colorscheme 'gruvbox-baby'
+      require('onedark').setup { lualine = { transparent = true } }
+      vim.cmd.colorscheme 'onedark'
     end,
   },
   {
@@ -79,7 +86,8 @@ require('Comment').setup()
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
   require('nvim-treesitter.configs').setup {
-    ensure_installed = "all",
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "query" },
+    auto_install = true,
     highlight = { enable = true },
     indent = { enable = true },
     incremental_selection = {
