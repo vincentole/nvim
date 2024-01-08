@@ -148,13 +148,14 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>fgb', live_grep_open_files, {})
       vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-      vim.keymap.set('n', '<leader>/', function()
-        -- You can pass additional configuration to telescope to change theme, layout, etc.
-        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 0,
-          previewer = false,
-        })
-      end, { desc = '[/] Fuzzily search in current buffer' })
+      vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, {})
+      -- vim.keymap.set('n', '<leader>/', function()
+      --   -- You can pass additional configuration to telescope to change theme, layout, etc.
+      --   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+      --     winblend = 10,
+      --     previewer = false,
+      --   })
+      -- end, {})
     end,
   },
 })
@@ -242,15 +243,15 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-  nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+  nmap('<leader>rn', vim.lsp.buf.rename)
+  nmap('<leader>ca', vim.lsp.buf.code_action)
 
-  nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  nmap('K', vim.lsp.buf.hover)
+  nmap('<C-k>', vim.lsp.buf.signature_help)
 
-  nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('gr', vim.lsp.buf.references, '[G]oto [R]eferences')
+  nmap('gd', vim.lsp.buf.definition)
+  nmap('gD', vim.lsp.buf.declaration)
+  nmap('gr', vim.lsp.buf.references)
 end
 
 local servers = {
