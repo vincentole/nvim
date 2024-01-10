@@ -31,6 +31,20 @@ require('lazy').setup({
       })
     end,
   },
+  {
+    'stevearc/oil.nvim',
+    config = function()
+      require("oil").setup {
+        columns = {
+          "permissions",
+          "icon",
+
+        }
+      }
+    end,
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
   -- {
   -- "olimorris/onedarkpro.nvim",
   -- priority = 1000,
@@ -144,18 +158,20 @@ require('lazy').setup({
 
       local builtin = require('telescope.builtin')
       vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+      vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
+      vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
+      vim.keymap.set('n', '<leader>fm', builtin.marks, {})
+      vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
       vim.keymap.set('n', '<leader>fgr', live_grep_git_root, {})
       vim.keymap.set('n', '<leader>fgb', live_grep_open_files, {})
-      vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
       vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, {})
-      -- vim.keymap.set('n', '<leader>/', function()
-      --   -- You can pass additional configuration to telescope to change theme, layout, etc.
-      --   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-      --     winblend = 10,
-      --     previewer = false,
-      --   })
-      -- end, {})
+      vim.keymap.set('n', '<leader>fb', function()
+        builtin.buffers(require('telescope.themes').get_dropdown {
+          winblend = 0,
+          previewer = false,
+        })
+      end, {})
     end,
   },
 })
@@ -268,6 +284,7 @@ local servers = {
   tsserver = {},
   yamlls = {},
   tailwindcss = {},
+  bashls = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
