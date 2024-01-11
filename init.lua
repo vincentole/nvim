@@ -1,3 +1,7 @@
+
+
+
+
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
@@ -18,8 +22,38 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
   { 'tpope/vim-fugitive' },
   { 'tpope/vim-sleuth' },
-  { 'lewis6991/gitsigns.nvim' },
-  { 'numToStr/Comment.nvim' },
+  {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require('gitsigns').setup()
+    end,
+  },
+  {
+    'echasnovski/mini.comment',
+    version = nil,
+    config = function()
+      require('mini.comment').setup()
+    end,
+  },
+  {
+    'echasnovski/mini.pairs',
+    version = nil,
+    config = function()
+      require('mini.pairs').setup({
+        mappings = {
+          ['<'] = { action = 'open', pair = '<>', neigh_pattern = '[^\\].' },
+        }
+
+      })
+    end,
+  },
+  {
+    'echasnovski/mini.surround',
+    version = nil,
+    config = function()
+      require('mini.surround').setup()
+    end,
+  },
   {
     'nvim-lualine/lualine.nvim',
     config = function()
@@ -31,6 +65,20 @@ require('lazy').setup({
         }
       })
     end,
+  },
+  {
+    "jiaoshijie/undotree",
+    dependencies = "nvim-lua/plenary.nvim",
+    config = function()
+      require('undotree').setup({
+        window = {
+          winblend = 0,
+        }
+      })
+    end,
+    keys = { -- load the plugin only when using it's keybinding:
+      { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>" },
+    },
   },
   {
     'stevearc/oil.nvim',
@@ -66,6 +114,7 @@ require('lazy').setup({
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-angular',
+      'nvim-treesitter/nvim-treesitter-context',
     },
     build = ':TSUpdate',
   },
@@ -91,12 +140,12 @@ require('lazy').setup({
       'dcampos/cmp-emmet-vim',
     },
   },
-  -- {
-  --   "folke/trouble.nvim",
-  --   dependencies = { "nvim-tree/nvim-web-devicons" },
-  --   opts = {
-  --   },
-  -- },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+    },
+  },
   {
     'nvim-telescope/telescope.nvim',
     branch = '0.1.x',
@@ -184,8 +233,6 @@ require('lazy').setup({
     end,
   },
 })
-
-require('Comment').setup()
 
 -- Treesitter
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
