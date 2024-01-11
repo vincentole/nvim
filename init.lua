@@ -16,6 +16,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+  { 'tpope/vim-fugitive' },
   { 'tpope/vim-sleuth' },
   { 'lewis6991/gitsigns.nvim' },
   { 'numToStr/Comment.nvim' },
@@ -64,6 +65,7 @@ require('lazy').setup({
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-angular',
     },
     build = ':TSUpdate',
   },
@@ -77,6 +79,7 @@ require('lazy').setup({
     },
   },
   { "lukas-reineke/lsp-format.nvim", opts = {} },
+  { 'mattn/emmet-vim' },
   {
     'hrsh7th/nvim-cmp',
     dependencies = {
@@ -85,6 +88,7 @@ require('lazy').setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-path',
       'rafamadriz/friendly-snippets',
+      'dcampos/cmp-emmet-vim',
     },
   },
   -- {
@@ -160,12 +164,17 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
       vim.keymap.set('n', '<leader>fd', builtin.lsp_definitions, {})
       vim.keymap.set('n', '<leader>fi', builtin.lsp_implementations, {})
+      vim.keymap.set('n', '<leader>fr', builtin.lsp_references, {})
       vim.keymap.set('n', '<leader>fm', builtin.marks, {})
       vim.keymap.set('n', '<leader>fc', builtin.command_history, {})
-      vim.keymap.set('n', '<leader>fgr', live_grep_git_root, {})
-      vim.keymap.set('n', '<leader>fgb', live_grep_open_files, {})
+      vim.keymap.set('n', '<leader>f/', live_grep_git_root, {})
       vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-      vim.keymap.set('n', '<leader>/', builtin.current_buffer_fuzzy_find, {})
+      vim.keymap.set('n', '<leader>/', function()
+        builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+          winblend = 0,
+          previewer = false,
+        })
+      end, {})
       vim.keymap.set('n', '<leader>fb', function()
         builtin.buffers(require('telescope.themes').get_dropdown {
           winblend = 0,
@@ -189,10 +198,10 @@ vim.defer_fn(function()
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
+        init_selection = '<Space>i',
+        node_incremental = '<Space>i',
+        node_decremental = '<Space>I',
+        scope_incremental = '<Space>o',
       },
     },
     textobjects = {
@@ -399,6 +408,8 @@ vim.keymap.set("i", "fd", "<Esc>", { noremap = true, silent = true })
 
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+vim.keymap.set("n", "<Space>e", "<CMD>Oil<CR>")
 
 -- Highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
