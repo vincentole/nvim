@@ -90,21 +90,30 @@ require('lazy').setup({
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  -- {
-  -- "olimorris/onedarkpro.nvim",
-  -- priority = 1000,
-  --   config = function()
-  --     vim.cmd.colorscheme 'onedark'
-  --   end,
-  -- },
   {
-    'navarasu/onedark.nvim',
+    "olimorris/onedarkpro.nvim",
     priority = 1000,
     config = function()
-      require('onedark').setup { lualine = { transparent = true } }
-      vim.cmd.colorscheme 'onedark'
+      require("onedarkpro").setup({
+        colors = {
+          float_bg = "require('onedarkpro.helpers').lighten('bg', 5.3, 'onedark_dark')",
+        },
+        highlights = {
+          NormalFloat = { bg = "${float_bg}" }
+        }
+      })
+
+      vim.cmd.colorscheme 'onedark_dark'
     end,
   },
+  --{
+  -- 'navarasu/onedark.nvim',
+  --  priority = 1000,
+  --  config = function()
+  --     require('onedark').setup { lualine = { transparent = true } }
+  --    vim.cmd.colorscheme 'onedark'
+  --  end,
+  -- },
   {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
@@ -229,6 +238,7 @@ require('lazy').setup({
     end,
   },
 })
+
 
 -- Treesitter
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -447,7 +457,7 @@ vim.o.completeopt = 'menuone,noselect'
 vim.o.termguicolors = true
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-vim.keymap.set("i", "fd", "<Esc>", { noremap = true, silent = true })
+vim.keymap.set("i", "dn", "<Esc>", { noremap = true, silent = true })
 
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
