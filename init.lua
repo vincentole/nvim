@@ -109,7 +109,7 @@ vim.o.mouse = 'a'
 vim.o.clipboard = 'unnamedplus'
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
-vim.opt.scrolloff = 9999
+-- vim.opt.scrolloff = 9999
 vim.o.breakindent = true
 vim.o.undofile = true
 vim.o.ignorecase = true
@@ -460,6 +460,15 @@ require('lazy').setup({
 		},
 		config = function()
 			pcall(require('telescope').load_extension, 'fzf')
+
+			require('telescope').setup({
+				defaults = {
+					borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
+					layout_config = {
+						horizontal = { width = 0.95, height = 0.9 }
+					},
+				},
+			})
 
 			-- Telescope live_grep in git root
 			-- Function to find the git root directory based on the current buffer's path
