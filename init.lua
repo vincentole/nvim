@@ -58,47 +58,15 @@ Keys = {
 		end, { desc = "Git Diff" } },
 		definitions = { 'n', '<leader>sd', function() require('telescope.builtin').lsp_definitions() end, { desc = "Definitions" } },
 		implementations = { 'n', '<leader>si', function() require('telescope.builtin').lsp_implementations() end, { desc = "Implementatios" } },
-
+		symbols = { 'n', '<leader>ss', function() require('telescope.builtin').lsp_document_symbols() end, { desc = "Symbols" } },
+		workspace_symbols = { 'n', '<leader>sS', function() require('telescope.builtin').lsp_document_symbols() end, { desc = "Workspace symbols" } },
+		grep_string = { 'n', '<leader>sn', function() require('telescope.builtin').grep_string() end, { desc = "Grep string" } },
+		oldfiles = { 'n', '<leader>so', function() require('telescope.builtin').oldfiles() end, { desc = "Oldfiles" } },
 		references = { 'n', '<leader>sr', function() require('telescope.builtin').lsp_references() end, { desc = "Refereces" } },
 		find_files = { 'n', '<leader>sf', function() require('telescope.builtin').find_files() end, { desc = "Find fils" } },
 		marks = { 'n', '<leader>sm', function() require('telescope.builtin').marks() end, { desc = "Marks" } },
 		command_history = { 'n', '<leader>sc', function() require('telescope.builtin').command_history() end, { desc = "Command history" } },
-		live_grep_git_root = { 'n', '<leader>s/', function()
-			local function find_git_root()
-				-- Use the current buffer's path as the starting point for the git search
-				local current_file = vim.api.nvim_buf_get_name(0)
-				local current_dir
-				local cwd = vim.fn.getcwd()
-				-- If the buffer is not associated with a file, return nil
-				if current_file == '' then
-					current_dir = cwd
-				else
-					-- Extract the directory from the current file's path
-					current_dir = vim.fn.fnamemodify(current_file, ':h')
-				end
-
-				-- Find the Git root directory from the current file's path
-				local git_root = vim.fn.systemlist('git -C ' ..
-						vim.fn.escape(current_dir, ' ') .. ' rev-parse --show-toplevel')
-					[1]
-				if vim.v.shell_error ~= 0 then
-					print 'Not a git repository. Searching on current working directory'
-					return cwd
-				end
-				return git_root
-			end
-
-			local function live_grep_git_root()
-				local git_root = find_git_root()
-				if git_root then
-					require('telescope.builtin').live_grep {
-						search_dirs = { git_root },
-					}
-				end
-			end
-
-			return live_grep_git_root()
-		end, { desc = "Grep git root" } },
+		live_grep = { 'n', '<leader>s/', function() require('telescope.builtin').live_grep() end, { desc = "Live grep" } },
 		help_tags = { 'n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = "Help tags" } },
 		fuzzy_find_current_buffer = { 'n', '<leader>/', function()
 			require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -592,7 +560,10 @@ require('lazy').setup({
 			vim.keymap.set(table.unpack(Keys.search.help_tags))
 			vim.keymap.set(table.unpack(Keys.search.fuzzy_find_current_buffer))
 			vim.keymap.set(table.unpack(Keys.search.buffers))
-			vim.keymap.set(table.unpack(Keys.search.live_grep_git_root))
+			vim.keymap.set(table.unpack(Keys.search.live_grep))
+			vim.keymap.set(table.unpack(Keys.search.symbols))
+			vim.keymap.set(table.unpack(Keys.search.workspace_symbols))
+			vim.keymap.set(table.unpack(Keys.search.oldfiles))
 		end,
 	},
 })
