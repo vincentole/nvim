@@ -1,18 +1,21 @@
 -- fix unpack compatibility
 table.unpack = table.unpack or unpack
 
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
--- vim.keymap.set("i", "dn", "<Esc>", { noremap = true, silent = true })
-
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
-
 Keys = {
+	harpoon = {
+		name = { ["<leader>h"] = { name = "harpoon" } },
+		add_file = { "n", "<leader>hm", function() require("harpoon.mark").add_file() end, { desc = "Add file" } },
+		toggle_menu = { "n", "<leader>hh", function() require("harpoon.ui").toggle_quick_menu() end, { desc = "Toggle menu" } },
+		nav_file_1 = { "n", "<leader>hr", function() require("harpoon.ui").nav_file(1) end, { desc = "Nav file 1" } },
+		nav_file_2 = { "n", "<leader>hs", function() require("harpoon.ui").nav_file(2) end, { desc = "Nav file 2" } },
+		nav_file_3 = { "n", "<leader>hn", function() require("harpoon.ui").nav_file(3) end, { desc = "Nav file 3" } },
+		nav_file_4 = { "n", "<leader>hd", function() require("harpoon.ui").nav_file(4) end, { desc = "Nav File 4" } },
+		nav_prev = { "n", "<leader>ha", function() require("harpoon.ui").nav_prev() end, { desc = "Nav prev" } },
+		nav_next = { "n", "<leader>he", function() require("harpoon.ui").nav_next() end, { desc = "Nav next" } },
+
+	},
 	lsp = {
-		name = { ["<leader>d"] = { name = "+lsp" } },
+		name = { ["<leader>d"] = { name = "lsp" } },
 		rename = function(bufnr)
 			return { 'n', '<leader>dr', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" } }
 		end,
@@ -35,15 +38,91 @@ Keys = {
 			return { 'n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = "Go to references" } }
 		end,
 	},
-	search = { ["<leader>s"] = { name = "+search" } },
-	trouble = {
-		name = { ["<leader>x"] = { name = "+trouble" } },
+	search = {
+		name = { ["<leader>s"] = { name = "search" } },
+		git_diff = { 'n', '<leader>sg', function()
+			local function git_diff(opts)
+				local pickers = require "telescope.pickers"
+				local finders = require "telescope.finders"
+				local conf = require("telescope.config").values
+				local list = vim.fn.systemlist('git diff --name-only main')
+
+				pickers.new(opts, {
+					prompt_title = "git diff",
+					finder = finders.new_table { results = list },
+					sorter = conf.generic_sorter(opts)
+				}):find()
+			end
+
+			git_diff()
+		end, { desc = "Git Diff" } },
+		definitions = { 'n', '<leader>sd', function() require('telescope.builtin').lsp_definitions() end, { desc = "Definitions" } },
+		implementations = { 'n', '<leader>si', function() require('telescope.builtin').lsp_implementations() end, { desc = "Implementatios" } },
+
+		references = { 'n', '<leader>sr', function() require('telescope.builtin').lsp_references() end, { desc = "Refereces" } },
+		find_files = { 'n', '<leader>sf', function() require('telescope.builtin').find_files() end, { desc = "Find fils" } },
+		marks = { 'n', '<leader>sm', function() require('telescope.builtin').marks() end, { desc = "Marks" } },
+		command_history = { 'n', '<leader>sc', function() require('telescope.builtin').command_history() end, { desc = "Command history" } },
+		live_grep_git_root = { 'n', '<leader>s/', function()
+			local function find_git_root()
+				-- Use the current buffer's path as the starting point for the git search
+				local current_file = vim.api.nvim_buf_get_name(0)
+				local current_dir
+				local cwd = vim.fn.getcwd()
+				-- If the buffer is not associated with a file, return nil
+				if current_file == '' then
+					current_dir = cwd
+				else
+					-- Extract the directory from the current file's path
+					current_dir = vim.fn.fnamemodify(current_file, ':h')
+				end
+
+				-- Find the Git root directory from the current file's path
+				local git_root = vim.fn.systemlist('git -C ' ..
+						vim.fn.escape(current_dir, ' ') .. ' rev-parse --show-toplevel')
+					[1]
+				if vim.v.shell_error ~= 0 then
+					print 'Not a git repository. Searching on current working directory'
+					return cwd
+				end
+				return git_root
+			end
+
+			local function live_grep_git_root()
+				local git_root = find_git_root()
+				if git_root then
+					require('telescope.builtin').live_grep {
+						search_dirs = { git_root },
+					}
+				end
+			end
+
+			return live_grep_git_root()
+		end, { desc = "Grep git root" } },
+		help_tags = { 'n', '<leader>sh', function() require('telescope.builtin').help_tags() end, { desc = "Help tags" } },
+		fuzzy_find_current_buffer = { 'n', '<leader>/', function()
+			require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+				winblend = 0,
+				previewer = false,
+			})
+		end, { desc = "Fuzzy find current buffer" } },
+		buffers = { 'n', '<leader>sb', function()
+			require('telescope.builtin').buffers(require('telescope.themes').get_dropdown {
+				winblend = 0,
+				previewer = false,
+			})
+		end, { desc = "Buffers" } },
+
+	},
+	diagnostic = {
+		name = { ["<leader>x"] = { name = "trouble" } },
 		toggle = { "n", "<leader>xx", function() require("trouble").toggle() end, { desc = "Toggle" } },
 		workspace_diagnostics = { "n", "<leader>xw", function() require("trouble").toggle("workspace_diagnostics") end, { desc = "Toggle workspace diagnostics" } },
 		document_diagnostics = { "n", "<leader>xd", function() require("trouble").toggle("document_diagnostics") end, { desc = "Toggle document diagnostics" } },
 		quickfix = { "n", "<leader>xq", function() require("trouble").toggle("quickfix") end, { desc = "Toggle quickfix" } },
 		loclist = { "n", "<leader>xl", function() require("trouble").toggle("loclist") end, { desc = "Toggle loclist" } },
 		lsp_references = { "n", "gR", function() require("trouble").toggle("lsp_references") end, { desc = "Toggle lsp references" } },
+		open_float = { "n", "<leader>xk", function() vim.diagnostic.open_float() end, { desc = "Open Float" } },
 	},
 	undotree = { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", desc = 'Undotree' },
 	oil = { "n", "<Space>e", "<CMD>Oil<CR>", { desc = "Oil" } },
@@ -101,6 +180,16 @@ Keys = {
 
 	},
 }
+
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+-- vim.keymap.set("i", "dn", "<Esc>", { noremap = true, silent = true })
+
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set(table.unpack(Keys.diagnostic.open_float))
 
 vim.o.relativenumber = true
 vim.o.hlsearch = false
@@ -162,16 +251,38 @@ require('lazy').setup({
 		end,
 	},
 	{
-		'echasnovski/mini.pairs',
-		version = nil,
+		'ThePrimeagen/harpoon',
+		dependencies = 'nvim-lua/plenary.nvim',
 		config = function()
-			require('mini.pairs').setup({
-				mappings = {
-				}
-
-			})
+			vim.keymap.set(table.unpack(Keys.harpoon.toggle_menu))
+			vim.keymap.set(table.unpack(Keys.harpoon.add_file))
+			vim.keymap.set(table.unpack(Keys.harpoon.nav_file_1))
+			vim.keymap.set(table.unpack(Keys.harpoon.nav_file_2))
+			vim.keymap.set(table.unpack(Keys.harpoon.nav_file_3))
+			vim.keymap.set(table.unpack(Keys.harpoon.nav_file_4))
+			vim.keymap.set(table.unpack(Keys.harpoon.nav_prev))
+			vim.keymap.set(table.unpack(Keys.harpoon.nav_next))
 		end,
 	},
+	-- {
+	--    "LeonHeidelbach/trailblazer.nvim",
+	--    config = function()
+	--        require("trailblazer").setup({
+	--            -- your custom config goes here
+	--        })
+	--    end,
+	-- },
+	-- {
+	-- 	'echasnovski/mini.pairs',
+	-- 	version = nil,
+	-- 	config = function()
+	-- 		require('mini.pairs').setup({
+	-- 			mappings = {
+	-- 			}
+	--
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		'echasnovski/mini.surround',
 		version = nil,
@@ -208,8 +319,9 @@ require('lazy').setup({
 		},
 		config = function()
 			require("which-key").register(Keys.lsp.name)
-			require("which-key").register(Keys.search)
-			require("which-key").register(Keys.trouble.name)
+			require("which-key").register(Keys.search.name)
+			require("which-key").register(Keys.diagnostic.name)
+			require("which-key").register(Keys.harpoon.name)
 		end,
 	},
 	{
@@ -251,7 +363,7 @@ require('lazy').setup({
 					bg_statusline = "require('onedarkpro.helpers').lighten('bg', 0, 'onedark_dark')",
 				},
 				highlights = {
-					NormalFloat = { bg = "${float_bg}" }
+					NormalFloat = { bg = "${float_bg}" },
 				},
 				options = {
 					cursorline = true
@@ -432,12 +544,12 @@ require('lazy').setup({
 		opts = {
 		},
 		config = function()
-			vim.keymap.set(table.unpack(Keys.trouble.toggle))
-			vim.keymap.set(table.unpack(Keys.trouble.workspace_diagnostics))
-			vim.keymap.set(table.unpack(Keys.trouble.document_diagnostics))
-			vim.keymap.set(table.unpack(Keys.trouble.quickfix))
-			vim.keymap.set(table.unpack(Keys.trouble.loclist))
-			vim.keymap.set(table.unpack(Keys.trouble.lsp_references))
+			vim.keymap.set(table.unpack(Keys.diagnostic.toggle))
+			vim.keymap.set(table.unpack(Keys.diagnostic.workspace_diagnostics))
+			vim.keymap.set(table.unpack(Keys.diagnostic.document_diagnostics))
+			vim.keymap.set(table.unpack(Keys.diagnostic.quickfix))
+			vim.keymap.set(table.unpack(Keys.diagnostic.loclist))
+			vim.keymap.set(table.unpack(Keys.diagnostic.lsp_references))
 		end,
 	},
 	{
@@ -470,73 +582,17 @@ require('lazy').setup({
 				},
 			})
 
-			-- Telescope live_grep in git root
-			-- Function to find the git root directory based on the current buffer's path
-			local function find_git_root()
-				-- Use the current buffer's path as the starting point for the git search
-				local current_file = vim.api.nvim_buf_get_name(0)
-				local current_dir
-				local cwd = vim.fn.getcwd()
-				-- If the buffer is not associated with a file, return nil
-				if current_file == '' then
-					current_dir = cwd
-				else
-					-- Extract the directory from the current file's path
-					current_dir = vim.fn.fnamemodify(current_file, ':h')
-				end
-
-				-- Find the Git root directory from the current file's path
-				local git_root = vim.fn.systemlist('git -C ' ..
-						vim.fn.escape(current_dir, ' ') .. ' rev-parse --show-toplevel')
-					[1]
-				if vim.v.shell_error ~= 0 then
-					print 'Not a git repository. Searching on current working directory'
-					return cwd
-				end
-				return git_root
-			end
-
-			-- Custom live_grep function to search in git root
-			local function live_grep_git_root()
-				local git_root = find_git_root()
-				if git_root then
-					require('telescope.builtin').live_grep {
-						search_dirs = { git_root },
-					}
-				end
-			end
-
-			local function live_grep_open_files()
-				require('telescope.builtin').live_grep {
-					grep_open_files = true,
-					prompt_title = 'Live Grep in Open Files',
-				}
-			end
-
-
-			local builtin = require('telescope.builtin')
-
-			vim.keymap.set('n', '<leader>sd', builtin.lsp_definitions, { desc = "Definitions" })
-			vim.keymap.set('n', '<leader>si', builtin.lsp_implementations, { desc = "Implementatios" })
-			vim.keymap.set('n', '<leader>sr', builtin.lsp_references, { desc = "Refereces" })
-
-			vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = "Find fils" })
-			vim.keymap.set('n', '<leader>sm', builtin.marks, { desc = "Marks" })
-			vim.keymap.set('n', '<leader>sc', builtin.command_history, { desc = "Command history" })
-			vim.keymap.set('n', '<leader>s/', live_grep_git_root, { desc = "Grep git root" })
-			vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = "Help tags" })
-			vim.keymap.set('n', '<leader>/', function()
-				builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-					winblend = 0,
-					previewer = false,
-				})
-			end, { desc = "Fuzzy find current buffer" })
-			vim.keymap.set('n', '<leader>sb', function()
-				builtin.buffers(require('telescope.themes').get_dropdown {
-					winblend = 0,
-					previewer = false,
-				})
-			end, { desc = "Buffers" })
+			vim.keymap.set(table.unpack(Keys.search.git_diff))
+			vim.keymap.set(table.unpack(Keys.search.definitions))
+			vim.keymap.set(table.unpack(Keys.search.implementations))
+			vim.keymap.set(table.unpack(Keys.search.references))
+			vim.keymap.set(table.unpack(Keys.search.find_files))
+			vim.keymap.set(table.unpack(Keys.search.marks))
+			vim.keymap.set(table.unpack(Keys.search.command_history))
+			vim.keymap.set(table.unpack(Keys.search.help_tags))
+			vim.keymap.set(table.unpack(Keys.search.fuzzy_find_current_buffer))
+			vim.keymap.set(table.unpack(Keys.search.buffers))
+			vim.keymap.set(table.unpack(Keys.search.live_grep_git_root))
 		end,
 	},
 })
