@@ -4,10 +4,27 @@ return {
     config = function()
         require("onedarkpro").setup({
             colors = {
-                float_bg = "require('onedarkpro.helpers').lighten('bg', 0, 'onedark_dark')",
-                cursorline = "require('onedarkpro.helpers').lighten('bg', 5.3, 'onedark_dark')",
-                bg_statusline = "require('onedarkpro.helpers').lighten('bg', 0, 'onedark_dark')",
-                fg_gutter = "require('onedarkpro.helpers').lighten('bg', 0, 'onedark_dark')",
+                bg = "#282828",
+                fg = "#ebdbb2",
+                red = "#fb4934",
+                green = "#b8bb26",
+                yellow = "#fabd2f",
+                blue = "#83a598",
+                purple = "#d3869b",
+                cyan = "#8ec07c",
+                orange = "#fe8019",
+
+                white = "#fbf1c7",
+                black = "#282828",
+                gray = "#a89984",
+                highlight = "#e2be7d",
+                comment = "#665c54",
+
+                float_bg = "#282828",
+                cursorline = "#32302f",
+                bg_statusline = "#282828",
+                fg_gutter = "#282828",
+                fg_gutter_inactive = "#282828",
             },
             highlights = {
                 PmenuSel = { bg = "${selection}" },

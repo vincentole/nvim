@@ -45,5 +45,8 @@ vim.opt.fillchars:append {
 
 vim.opt.shortmess:append "c"
 
+vim.opt.guifont = { "FiraMono Nerd Font", ":h12" }
+vim.opt.linespace = 8
+
 vim.cmd "set whichwrap+=<,>,[,],h,l"
 vim.cmd [[set iskeyword+=-]]
