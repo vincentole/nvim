@@ -7,7 +7,6 @@ local M = {
         "nvim-telescope/telescope.nvim",
         "ibhagwan/fzf-lua",
     }
-
 }
 
 function M.config()

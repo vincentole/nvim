@@ -8,7 +8,7 @@ M.config = function()
     which_key.register(
         {
             q = { "<cmd>confirm q<CR>", "Quit" },
-            h = { "<cmd>nohlsearch<CR>", "NOHL" },
+            h = { "<cmd>nohlsearch<CR>", "nohl" },
             [";"] = { "<cmd>tabnew | terminal<CR>", "Term" },
             v = { "<cmd>vsplit<CR>", "Split" },
             b = { name = "buffers" },
@@ -22,11 +22,11 @@ M.config = function()
             --p = { name = "project" },
             a = {
                 name = "tab",
-                n = { "<cmd>$tabnew<cr>", "New Empty Tab" },
-                N = { "<cmd>tabnew %<cr>", "New Tab" },
+                n = { "<cmd>$tabnew<cr>", "New empty tab" },
+                N = { "<cmd>tabnew %<cr>", "New tab" },
                 o = { "<cmd>tabonly<cr>", "Only" },
-                h = { "<cmd>-tabmove<cr>", "Move Left" },
-                l = { "<cmd>+tabmove<cr>", "Move Right" },
+                h = { "<cmd>-tabmove<cr>", "Move left" },
+                l = { "<cmd>+tabmove<cr>", "Move right" },
             },
             T = { name = "treesitter" },
         },

@@ -24,7 +24,6 @@ function M.config()
     end, { desc = "Git Diff" })
 
     vim.keymap.set('n', '<leader>sl', builtin.resume, { desc = "Resume last search" })
-    vim.keymap.set('n', '<leader>sp', require('telescope').extensions.projects.projects, { desc = "Projects" })
     vim.keymap.set('n', '<leader>sd', builtin.lsp_definitions, { desc = "Definitions" })
     vim.keymap.set('n', '<leader>si', builtin.lsp_implementations, { desc = "Implementatios" })
     vim.keymap.set('n', '<leader>ss', builtin.lsp_document_symbols, { desc = "Symbols" })

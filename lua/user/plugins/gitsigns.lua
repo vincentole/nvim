@@ -58,16 +58,16 @@ M.config = function()
     }
 
     vim.keymap.set("n", "<leader>gj", function() require 'gitsigns'.next_hunk({ navigation_message = false }) end,
-        { desc = "Next Hunk" })
+        { desc = "Next hunk" })
     vim.keymap.set("n", "<leader>gk", function() require 'gitsigns'.prev_hunk({ navigation_message = false }) end,
-        { desc = "Prev Hunk" })
-    vim.keymap.set("n", "<leader>gp", require 'gitsigns'.preview_hunk, { desc = "Preview Hunk" })
-    vim.keymap.set("n", "<leader>gr", require 'gitsigns'.reset_hunk, { desc = "Reset Hunk" })
+        { desc = "Prev hunk" })
+    vim.keymap.set("n", "<leader>gp", require 'gitsigns'.preview_hunk, { desc = "Preview hunk" })
+    vim.keymap.set("n", "<leader>gr", require 'gitsigns'.reset_hunk, { desc = "Reset hunk" })
     vim.keymap.set("n", "<leader>gl", require 'gitsigns'.blame_line, { desc = "Blame" })
-    vim.keymap.set("n", "<leader>gR", require 'gitsigns'.reset_buffer, { desc = "Reset Buffer" })
-    vim.keymap.set("n", "<leader>gs", require 'gitsigns'.stage_hunk, { desc = "Stage Hunk" })
-    vim.keymap.set("n", "<leader>gu", require 'gitsigns'.undo_stage_hunk, { desc = "Undo Stage Hunk" })
-    vim.keymap.set("n", "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", { desc = "Git Diff" })
+    vim.keymap.set("n", "<leader>gR", require 'gitsigns'.reset_buffer, { desc = "Reset buffer" })
+    vim.keymap.set("n", "<leader>gs", require 'gitsigns'.stage_hunk, { desc = "Stage hunk" })
+    vim.keymap.set("n", "<leader>gu", require 'gitsigns'.undo_stage_hunk, { desc = "Undo stage hunk" })
+    vim.keymap.set("n", "<leader>gd", "<cmd>Gitsigns diffthis HEAD<cr>", { desc = "Git diff" })
 end
 
 return M

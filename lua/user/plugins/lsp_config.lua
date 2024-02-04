@@ -23,10 +23,10 @@ M.config = function()
 
     require('which-key').register({
         ['<leader>l'] = {
-            k = { vim.diagnostic.open_float, "Open Diagnostic" },
-            n = { vim.diagnostic.goto_next, "Next Diagnostic" },
-            p = { vim.diagnostic.goto_prev, "Prev Diagnostic" },
-            l = { vim.lsp.codelens.run, "CodeLens Action" },
+            k = { vim.diagnostic.open_float, "Open diagnostic" },
+            n = { vim.diagnostic.goto_next, "Next diagnostic" },
+            p = { vim.diagnostic.goto_prev, "Prev diagnostic" },
+            l = { vim.lsp.codelens.run, "CodeLens action" },
             q = { vim.diagnostic.setloclist, "Quickfix" },
             h = { require('user.plugins.lsp_config').toggle_inlay_hints, "Toggle Hints" }
         },
