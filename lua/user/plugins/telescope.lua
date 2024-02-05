@@ -51,7 +51,7 @@ function M.config()
     vim.keymap.set('n', '<leader>sn', builtin.grep_string, { desc = "Grep string" })
     vim.keymap.set('n', '<leader>so', builtin.oldfiles, { desc = "Oldfiles" })
 
-    vim.keymap.set('n', '<leader>sf', function()
+    vim.keymap.set('n', '<leader>s.', function()
         builtin.find_files({
             layout_strategy = "vertical",
             previewer = false,

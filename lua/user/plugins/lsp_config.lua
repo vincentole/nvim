@@ -22,11 +22,11 @@ M.config = function()
     require('neodev').setup()
 
     require('which-key').register({
-        ['<leader>l'] = {
-            k = { vim.diagnostic.open_float, "Open diagnostic" },
-            n = { vim.diagnostic.goto_next, "Next diagnostic" },
-            p = { vim.diagnostic.goto_prev, "Prev diagnostic" },
-            l = { vim.lsp.codelens.run, "CodeLens action" },
+        ['<leader>d'] = {
+            n = { vim.diagnostic.open_float, "Open diagnostic" },
+            d = { vim.diagnostic.goto_next, "Next diagnostic" },
+            s = { vim.diagnostic.goto_pcev, "Prev diagnostic" },
+            a = { vim.lsp.codelens.run, "CodeLens action" },
             q = { vim.diagnostic.setloclist, "Quickfix" },
             h = { require('user.plugins.lsp_config').toggle_inlay_hints, "Toggle Hints" }
         },
@@ -36,8 +36,8 @@ M.config = function()
         vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename" })
         vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code action" })
 
-        vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover" })
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature Help" })
+        vim.keymap.set('n', '<leader>le', vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover" })
+        vim.keymap.set('n', '<leader>li', vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature Help" })
 
         vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to definion" })
         vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = bufnr, desc = "Go to declaration" })
