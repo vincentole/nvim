@@ -16,7 +16,10 @@ M.config = function()
         scope_chdir = "global",
     }
 
-    vim.keymap.set('n', '<leader>sp', require('telescope').extensions.projects.projects, { desc = "Find projects" })
+
+    vim.keymap.set('n', '<leader>sp',
+        function() require('telescope').extensions.projects.projects({ layout_strategy = "vertical" }) end,
+        { desc = "Find projects" })
 end
 
 return M
