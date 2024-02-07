@@ -6,13 +6,33 @@ return {
             colors = {
                 bg = "#282828",
                 fg = "#ebdbb2",
-                red = "#fb4934",
-                green = "#b8bb26",
-                yellow = "#fabd2f",
-                blue = "#83a598",
-                purple = "#d3869b",
-                cyan = "#8ec07c",
-                orange = "#fe8019",
+
+                -- red = "#fb4934",
+                -- green = "#b8bb26",
+                -- yellow = "#fabd2f",
+                -- purple = "#d3869b",
+                -- blue = "#83a598",
+                -- cyan = "#8ec07c",
+                -- orange = "#fe8019",
+
+                red = "#F29979",
+                green = "#D4CC72",
+                -- yellow = "#F2CD76",
+                purple = "#E0B4A8",
+                blue = "#BCC2A6",
+                cyan = "#C1CF99",
+                orange = "#F4B26C",
+
+                yellow = "#F0D082",
+
+                -- red = "#EEC09B",
+                -- green = "#E2D599",
+                -- yellow = "#EED69A",
+                -- blue = "#D8D1AD",
+                -- purple = "#E7CCAE",
+                -- cyan = "#DAD6A8",
+                -- orange = "#EECA96",
+
 
                 white = "#fbf1c7",
                 black = "#282828",
