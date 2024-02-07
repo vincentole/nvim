@@ -7,6 +7,7 @@ M.config = function()
     require("oil").setup({
         columns = {
             "permissions",
+            "size",
             "icon",
         }
     })

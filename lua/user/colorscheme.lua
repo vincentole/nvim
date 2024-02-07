@@ -4,6 +4,8 @@ return {
     config = function()
         require("onedarkpro").setup({
             colors = {
+                -- bg = "#222222",
+
                 bg = "#282828",
                 fg = "#ebdbb2",
 
@@ -15,24 +17,45 @@ return {
                 -- cyan = "#8ec07c",
                 -- orange = "#fe8019",
 
-                red = "#F29979",
-                green = "#D4CC72",
-                -- yellow = "#F2CD76",
-                purple = "#E0B4A8",
-                blue = "#BCC2A6",
-                cyan = "#C1CF99",
-                orange = "#F4B26C",
+                red = "#F77156",
+                green = "#C6C44C",
+                -- yellow = "#F6C553",
+                purple = "#DA9DA1",
+                blue = "#9FB49F",
+                cyan = "#A7C78B",
+                orange = "#F99943",
 
-                yellow = "#F0D082",
+                -- red = "#F29979",
+                -- green = "#D4CC72",
+                yellow = "#F2CD76",
+                -- purple = "#E0B4A8",
+                -- blue = "#BCC2A6",
+                -- cyan = "#C1CF99",
+                -- orange = "#F4B26C",
+
+                -- red = "#EFB390",
+                -- green = "#DDD28C",
+                -- yellow = "#EFD38E",
+                -- purple = "#E4C4AC",
+                -- blue = "#CFCCAB",
+                -- cyan = "#D2D4A3",
+                -- orange = "#F0C288",
 
                 -- red = "#EEC09B",
                 -- green = "#E2D599",
                 -- yellow = "#EED69A",
-                -- blue = "#D8D1AD",
                 -- purple = "#E7CCAE",
+                -- blue = "#D8D1AD",
                 -- cyan = "#DAD6A8",
                 -- orange = "#EECA96",
 
+                -- red = "#ECCEA7",
+                -- green = "#E6D8A5",
+                -- yellow = "#ECD8A6",
+                -- purple = "#E9D3B0",
+                -- blue = "#E2D6B0",
+                -- cyan = "#E3D9AD",
+                -- orange = "#EDD3A4",
 
                 white = "#fbf1c7",
                 black = "#282828",
