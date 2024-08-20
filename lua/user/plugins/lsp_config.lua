@@ -12,7 +12,7 @@ local M = {
 
 M.toggle_inlay_hints = function()
     local bufnr = vim.api.nvim_get_current_buf()
-    vim.lsp.inlay_hint.enable(bufnr, not vim.lsp.inlay_hint.is_enabled(bufnr))
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }))
 end
 
 M.config = function()
@@ -21,15 +21,13 @@ M.config = function()
     require("lsp-format").setup {}
     require('neodev').setup()
 
-    require('which-key').register({
-        ['<leader>d'] = {
-            n = { vim.diagnostic.open_float, "Open diagnostic" },
-            d = { vim.diagnostic.goto_next, "Next diagnostic" },
-            s = { vim.diagnostic.goto_pcev, "Prev diagnostic" },
-            a = { vim.lsp.codelens.run, "CodeLens action" },
-            q = { vim.diagnostic.setloclist, "Quickfix" },
-            h = { require('user.plugins.lsp_config').toggle_inlay_hints, "Toggle Hints" }
-        },
+    require('which-key').add({
+        { "<leader>dn", vim.diagnostic.open_float,                             desc = "Open diagnostic" },
+        { "<leader>dd", vim.diagnostic.goto_next,                              desc = "Next diagnostic" },
+        { "<leader>ds", vim.diagnostic.goto_pcev,                              desc = "Prev diagnostic" },
+        { "<leader>da", vim.lsp.codelens.run,                                  desc = "CodeLens action" },
+        { "<leader>dq", vim.diagnostic.setloclist,                             desc = "Quickfix" },
+        { "<leader>dh", require('user.plugins.lsp_config').toggle_inlay_hints, desc = "Toggle Hints" }
     })
 
     local on_attach = function(client, bufnr)
@@ -45,8 +43,8 @@ M.config = function()
 
         require("lsp-format").on_attach(client, bufnr)
 
-        if client.supports_method "textDocument/inlayHint" then
-            vim.lsp.inlay_hint.enable(bufnr, true)
+        if client.supports_method("textDocument/inlayHint") then
+            vim.lsp.inlay_hint.enable(true)
         end
     end
 

@@ -3,37 +3,33 @@ local M = {
 }
 
 M.config = function()
-    local which_key = require "which-key"
+    local which_key = require("which-key")
 
-    which_key.register(
+    which_key.add(
         {
-            q = { "<cmd>confirm q<CR>", "Quit" },
-            h = { "<cmd>nohlsearch<CR>", "nohl" },
-            [";"] = { "<cmd>tabnew | terminal<CR>", "Term" },
-            v = { "<cmd>vsplit<CR>", "Split" },
-            y = { "yi", "Yank inner" },
-            b = { name = "buffers" },
-            d = { name = "diagnostic" },
-            s = { name = "search" },
-            g = { name = "git" },
-            l = { name = "lsp" },
-            p = { name = "plugins" },
-            t = { name = "test" },
-            m = { name = "harpoon" },
-            --p = { name = "project" },
-            a = {
-                name = "tab",
-                n = { "<cmd>$tabnew<cr>", "New empty tab" },
-                N = { "<cmd>tabnew %<cr>", "New tab" },
-                o = { "<cmd>tabonly<cr>", "Only" },
-                h = { "<cmd>-tabmove<cr>", "Move left" },
-                l = { "<cmd>+tabmove<cr>", "Move right" },
-            },
-            T = { name = "treesitter" },
-        },
-        {
-            mode = "n", -- NORMAL mode
-            prefix = "<leader>",
+            mode = { "n" }, -- NORMAL mode
+
+            { "<leader>q",  "<cmd>confirm q<CR>",  desc = "Quit" },
+            { "<leader>h",  "<cmd>nohlsearch<CR>", desc = "nohl" },
+            { "<leader>v",  "<cmd>vsplit<CR>",     desc = "Split" },
+            { "<leader>y",  "yi",                  desc = "Yank inner" },
+            { "<leader>b",  group = "buffers" },
+            { "<leader>d",  group = "diagnostic" },
+            { "<leader>s",  group = "search" },
+            { "<leader>g",  group = "git" },
+            { "<leader>l",  group = "lsp" },
+            { "<leader>p",  group = "plugins" },
+            { "<leader>m",  group = "harpoon" },
+            --p = { "<leader>q", group = "project" },
+
+            { "<leader>a",  group = "tab" },
+            { "<leader>an", "<cmd>$tabnew<cr>",    desc = "New empty tab" },
+            { "<leader>aN", "<cmd>tabnew %<cr>",   desc = "New tab" },
+            { "<leader>ao", "<cmd>tabonly<cr>",    desc = "Only" },
+            { "<leader>ah", "<cmd>-tabmove<cr>",   desc = "Move left" },
+            { "<leader>al", "<cmd>+tabmove<cr>",   desc = "Move right" },
+
+            { "<leader>t",  group = "treesitter" },
         }
     )
 end

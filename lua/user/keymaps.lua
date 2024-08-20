@@ -27,6 +27,6 @@ vim.keymap.set({ "n", "o", "x" }, "<s-l>", "g_", { noremap = true, silent = true
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
-vim.keymap.set('n', 'U', vim.cmd.redo, { desc = 'Undo' })
+vim.keymap.set('n', 'U', vim.cmd.redo)
 
 vim.api.nvim_set_keymap('t', '<C-;>', '<C-\\><C-n>', { noremap = true, silent = true })

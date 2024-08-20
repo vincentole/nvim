@@ -3,12 +3,12 @@ vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the s
 vim.opt.cmdheight = 1                           -- more space in the neovim command line for displaying messages
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
--- vim.opt.fileencoding = "utf-8" -- the encoding written to a file
+vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
 vim.opt.hlsearch = true                         -- highlight all matches on previous search pattern
 vim.opt.ignorecase = true                       -- ignore case in search patterns
 vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
 vim.opt.pumheight = 10                          -- pop up menu height
-vim.opt.pumblend = 0
+vim.opt.pumblend = 0                            --enables pseudo-transparency for the popup-menu
 vim.opt.showmode = false                        -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 1                         -- always show tabs
 vim.opt.smartcase = true                        -- smart case
@@ -40,7 +40,7 @@ vim.opt.title = false
 -- colorcolumn = "120",
 vim.opt.fillchars = vim.opt.fillchars + "eob: "
 vim.opt.fillchars:append {
-  stl = " ",
+    stl = " ",
 }
 
 vim.opt.shortmess:append "c"

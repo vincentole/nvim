@@ -17,7 +17,7 @@ return {
                 -- cyan = "#8ec07c",
                 -- orange = "#fe8019",
 
-                red = "#F77156",
+                -- red = "#F77156",
                 green = "#C6C44C",
                 -- yellow = "#F6C553",
                 purple = "#DA9DA1",

@@ -21,7 +21,9 @@ function M.config()
         git_diff()
     end, { desc = "Git Diff" })
 
+    local actions = require("telescope.actions")
     local builtin = require('telescope.builtin')
+
     vim.keymap.set('n', '<leader>sl', builtin.resume, { desc = "Resume last search" })
 
     vim.keymap.set('n', '<leader>sd', function()
@@ -80,10 +82,9 @@ function M.config()
         })
     end, { desc = "Buffers" })
 
-    --local icons = require "user.icons"
-    local actions = require "telescope.actions"
 
-    local icons = require "user.icons"
+    local icons = require("user.icons")
+
     require("telescope").setup {
         defaults = {
             layout_strategy = 'vertical',
